@@ -4,6 +4,7 @@ import './App.css'
 function App() {
   const [selectedFile, setSelectedFile] = useState(null);
   const [result, setResult] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   function handleFileChange(e) {
     const file = e.target.files[0];
@@ -14,7 +15,15 @@ function App() {
   function handleSubmit(e) {
     e.preventDefault();
     if (!selectedFile) return alert("Please upload a car image.");
-    setResult("Recognized: Sedan (sample result)");
+
+    setLoading(true);
+    setResult(null);
+
+    // Simulate async image recognition call
+    setTimeout(() => {
+      setLoading(false);
+      setResult("Recognized: Sedan (sample result)");
+    }, 2000);
   }
 
   return (
@@ -42,10 +51,18 @@ function App() {
             onChange={handleFileChange}
             className="file-input"
           />
-          <button type="submit">Analyze Image</button>
+          <button type="submit" disabled={loading}>
+            {loading ? "Analyzing..." : "Analyze Image"}
+          </button>
         </form>
 
-        {result && <div className="result">{result}</div>}
+        {loading && (
+          <div className="spinner" role="status" aria-live="polite" aria-label="Loading">
+            <div className="loader"></div>
+          </div>
+        )}
+
+        {result && !loading && <div className="result">{result}</div>}
       </main>
 
       <footer className="footer">
