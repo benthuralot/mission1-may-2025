@@ -39,17 +39,52 @@ function App() {
     dropRef.current.classList.remove("drag-over");
   }
 
-  function handleSubmit(e) {
+  function formatPrediction(prediction) {
+    const upperCaseTerms = ["SUV", "MPV", "EV", "4WD"];
+
+    const normalized = prediction.trim().toLowerCase();
+
+    if (upperCaseTerms.includes(normalized.toUpperCase())) {
+      return normalized.toUpperCase();
+    }
+
+    return normalized.charAt(0).toUpperCase() + normalized.slice(1);
+  }
+
+  async function handleSubmit(e) {
     e.preventDefault();
     if (!selectedFile) return alert("Please upload a car image.");
 
     setLoading(true);
     setResult(null);
 
-    setTimeout(() => {
+    try {
+      const formData = new FormData();
+      formData.append("image", selectedFile);
+
+      const response = await fetch("http://localhost:4000/upload", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (!response.ok) {
+        throw new Error("Prediction request failed");
+      }
+
+      const data = await response.json();
+
+      const predictionRaw = data.predictions?.[0]?.displayNames?.[0] || "Unknown";
+      const confidence = data.predictions?.[0]?.confidences?.[0] || 0;
+
+      setResult({
+        prediction: formatPrediction(predictionRaw),
+        confidence: (confidence * 100).toFixed(2),
+      });
+    } catch (error) {
+      alert("Error predicting image: " + error.message);
+    } finally {
       setLoading(false);
-      setResult("Recognized: Sedan (sample result)");
-    }, 2000);
+    }
   }
 
   return (
@@ -132,13 +167,13 @@ function App() {
               <div className="result-item">
                 <Car className="result-icon" />
                 <span>
-                  <strong>Car Type:</strong> {result}
+                  <strong>Car Type:</strong> {result.prediction}
                 </span>
               </div>
               <div className="result-item">
                 <GaugeCircle className="result-icon" />
                 <span>
-                  <strong>Confidence:</strong> 95%
+                  <strong>Confidence:</strong> {result.confidence}%
                 </span>
               </div>
             </div>
