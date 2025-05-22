@@ -152,6 +152,14 @@ nodemon index.js
 
 ---
 
+## Contributors
+
+<a href="https://github.com/benthuralot/mission1-may-2025/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=benthuralot/mission1-may-2025" alt="Contributors" style="width: 100px; height: 100px;" />
+</a>
+
+---
+
 ## Contact
 
 **Project Lead:** Hershyl
