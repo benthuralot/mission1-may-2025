@@ -25,8 +25,6 @@
     <a href="#installation">Install Guide</a>
     ·
     <a href="#usage">Usage</a>
-    ·
-    <a href="#deployment">Deployment</a>
   </p>
 </div>
 
@@ -140,7 +138,7 @@ nodemon index.js
   ![Screenshot 2025-05-22 131405](https://github.com/user-attachments/assets/73ea010a-b451-4d92-96e0-25eedcfa13e6)
 * Click the Analyze button and wait for your results
   ![Screenshot 2025-05-22 131513](https://github.com/user-attachments/assets/c945e15f-75c5-4157-ba01-bde457778ac2)
-* Get prediction with confidence score and image preview
+* Get prediction with Car Type, Confidence Score, and image preview
   ![Screenshot 2025-05-22 131701](https://github.com/user-attachments/assets/5c2f6dd9-b436-4569-8cf6-1f543d7064a5)
 
 ---
